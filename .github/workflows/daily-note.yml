@@ -1,0 +1,49 @@
+name: Create Daily Note
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs at midnight UTC
+  workflow_dispatch:      # Allows manual trigger
+
+jobs:
+  create_daily_note:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          
+      - name: Create Daily Note
+        run: |
+          from datetime import datetime
+          import os
+          
+          today = datetime.now()
+          date_str = today.strftime('%Y-%m-%d')
+          year_month = today.strftime('%Y/%m-%B')
+          
+          template_path = '_templates/daily-notes/template.md'
+          target_dir = f'P-Projects/daily/{year_month}'
+          target_path = f'{target_dir}/{date_str}.md'
+          
+          os.makedirs(target_dir, exist_ok=True)
+          
+          with open(template_path, 'r') as f:
+              template = f.read()
+          
+          note_content = template.replace('{{date}}', date_str)
+          
+          with open(target_path, 'w') as f:
+              f.write(note_content)
+        shell: python
+        
+      - name: Commit daily note
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "chore: Add daily note for $(date +'%Y-%m-%d')"
+          git push
