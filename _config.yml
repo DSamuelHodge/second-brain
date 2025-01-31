@@ -1,0 +1,46 @@
+remote_theme: just-the-docs/just-the-docs
+
+title: Second Brain
+description: Personal knowledge management system using PARA method
+baseurl: "/second-brain"
+url: "https://dsamuelhodge.github.io"
+
+# Theme settings
+search_enabled: true
+heading_anchors: true
+
+# Navigation
+nav_external_links:
+  - title: GitHub Repository
+    url: https://github.com/DSamuelHodge/second-brain
+    hide_icon: false
+
+# Collections
+collections:
+  projects:
+    output: true
+    permalink: /:collection/:path/
+  areas:
+    output: true
+    permalink: /:collection/:path/
+  resources:
+    output: true
+    permalink: /:collection/:path/
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+      type: "projects"
+    values:
+      layout: "page"
+  - scope:
+      path: ""
+      type: "areas"
+    values:
+      layout: "page"
+  - scope:
+      path: ""
+      type: "resources"
+    values:
+      layout: "page"
