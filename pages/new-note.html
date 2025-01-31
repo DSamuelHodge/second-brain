@@ -1,0 +1,239 @@
+---
+layout: default
+title: Create New Note
+nav_order: 2
+---
+
+<div class="note-form">
+  <h1>Create New Note</h1>
+  
+  <form id="noteForm" class="form-container">
+    <div class="form-group">
+      <label for="templateType">Template Type</label>
+      <select id="templateType" name="templateType" class="form-select" onchange="updateFormFields()">
+        <option value="daily">Daily Note</option>
+        <option value="project">Project</option>
+        <option value="meeting">Meeting</option>
+      </select>
+    </div>
+
+    <!-- Dynamic form fields will be inserted here -->
+    <div id="dynamicFields"></div>
+
+    <button type="submit" class="btn-submit">Create Note</button>
+  </form>
+</div>
+
+<style>
+.note-form {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--code-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-select,
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+.form-textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.btn-submit {
+  background: var(--link-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+  background: var(--link-hover-color);
+}
+</style>
+
+<script>
+const templates = {
+  daily: [
+    { type: 'date', name: 'date', label: 'Date' },
+    { type: 'text', name: 'mainFocus', label: 'Main Focus' },
+    { type: 'textarea', name: 'tasks', label: 'Tasks' },
+    { type: 'textarea', name: 'notes', label: 'Notes & Ideas' }
+  ],
+  project: [
+    { type: 'text', name: 'title', label: 'Project Title' },
+    { type: 'textarea', name: 'objective', label: 'Project Objective' },
+    { type: 'date', name: 'startDate', label: 'Start Date' },
+    { type: 'date', name: 'targetDate', label: 'Target Date' },
+    { type: 'textarea', name: 'deliverables', label: 'Key Deliverables' },
+    { type: 'text', name: 'tags', label: 'Tags (comma-separated)' }
+  ],
+  meeting: [
+    { type: 'text', name: 'title', label: 'Meeting Title' },
+    { type: 'date', name: 'date', label: 'Date' },
+    { type: 'text', name: 'participants', label: 'Participants' },
+    { type: 'textarea', name: 'agenda', label: 'Agenda' },
+    { type: 'textarea', name: 'notes', label: 'Discussion Notes' },
+    { type: 'textarea', name: 'actionItems', label: 'Action Items' }
+  ]
+};
+
+function updateFormFields() {
+  const templateType = document.getElementById('templateType').value;
+  const dynamicFields = document.getElementById('dynamicFields');
+  dynamicFields.innerHTML = '';
+
+  templates[templateType].forEach(field => {
+    const formGroup = document.createElement('div');
+    formGroup.className = 'form-group';
+
+    const label = document.createElement('label');
+    label.htmlFor = field.name;
+    label.textContent = field.label;
+
+    let input;
+    if (field.type === 'textarea') {
+      input = document.createElement('textarea');
+      input.className = 'form-textarea';
+    } else {
+      input = document.createElement('input');
+      input.type = field.type;
+      input.className = 'form-input';
+    }
+    input.id = field.name;
+    input.name = field.name;
+
+    formGroup.appendChild(label);
+    formGroup.appendChild(input);
+    dynamicFields.appendChild(formGroup);
+  });
+}
+
+document.getElementById('noteForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const formData = new FormData(e.target);
+  const templateType = formData.get('templateType');
+  const data = Object.fromEntries(formData);
+  
+  try {
+    // Generate markdown content based on template
+    const content = generateMarkdown(templateType, data);
+    
+    // Get path based on template type
+    const path = getNotePath(templateType, data);
+    
+    // Create GitHub issue with content
+    const response = await createGitHubIssue(path, content);
+    
+    if (response.ok) {
+      alert('Note created successfully!');
+      e.target.reset();
+    } else {
+      throw new Error('Failed to create note');
+    }
+  } catch (error) {
+    alert('Error creating note: ' + error.message);
+  }
+});
+
+function generateMarkdown(type, data) {
+  const templates = {
+    daily: `---
+date: ${data.date}
+type: daily-note
+---
+
+# Daily Note: ${data.date}
+
+## 🎯 Main Focus
+${data.mainFocus}
+
+## 📝 Notes & Ideas
+${data.notes}
+
+## 📋 Tasks
+${data.tasks}
+`,
+    project: `---
+project: ${data.title}
+status: active
+start_date: ${data.startDate}
+target_date: ${data.targetDate}
+tags: [${data.tags}]
+---
+
+# ${data.title}
+
+## 🎯 Objective
+${data.objective}
+
+## 📋 Key Deliverables
+${data.deliverables}
+`,
+    meeting: `---
+title: ${data.title}
+date: ${data.date}
+participants: [${data.participants}]
+---
+
+# Meeting: ${data.title}
+
+## 👥 Participants
+${data.participants}
+
+## 🎯 Agenda
+${data.agenda}
+
+## 📝 Discussion Notes
+${data.notes}
+
+## ✅ Action Items
+${data.actionItems}
+`
+  };
+  
+  return templates[type];
+}
+
+function getNotePath(type, data) {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  
+  const paths = {
+    daily: `P-Projects/daily/${year}/${month}/${data.date}.md`,
+    project: `P-Projects/active-projects/${data.title.toLowerCase().replace(/\s+/g, '-')}.md`,
+    meeting: `P-Projects/meetings/${year}/${month}/${data.title.toLowerCase().replace(/\s+/g, '-')}.md`
+  };
+  
+  return paths[type];
+}
+
+// Initial form setup
+updateFormFields();
+</script>
