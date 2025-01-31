@@ -1,22 +1,15 @@
 ---
 ---
 
-@import "base";
-
-// Base colors (Tokyo Night theme)
-$bg-color: #1A1B26;
-$text-color: #A9B1D6;
-$link-color: #7AA2F7;
-$code-bg-color: #24283B;
-$border-color: #414868;
-$heading-color: #BB9AF7;
+@import "./color_schemes/tokyo-night";
+@import "./support/support";
 
 // Fix line numbers in code blocks
 .highlight {
   pre {
     margin: 0;
     padding: 1rem;
-    background-color: $code-bg-color;
+    background-color: $code-background-color;
     border-radius: 4px;
   }
 
@@ -24,7 +17,7 @@ $heading-color: #BB9AF7;
     color: #565f89;
     text-align: right;
     padding: 0 0.75em 0 0;
-    border-right: 1px solid #414868;
+    border-right: 1px solid $border-color;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -47,7 +40,7 @@ $heading-color: #BB9AF7;
       }
     }
     pre.lineno {
-      background-color: darken($code-bg-color, 2%);
+      background-color: darken($code-background-color, 2%);
       border-radius: 4px 0 0 4px;
       padding: 1rem 0.75rem;
       color: #565f89;
@@ -57,8 +50,8 @@ $heading-color: #BB9AF7;
 
 // Code block syntax highlighting
 .highlighter-rouge {
-  background-color: $code-bg-color;
-  color: $text-color;
+  background-color: $code-background-color;
+  color: $body-text-color;
   border-radius: 4px;
   margin: 1rem 0;
   
@@ -74,7 +67,7 @@ code.highlighter-rouge {
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 0.9em;
-  background-color: rgba($code-bg-color, 0.5);
+  background-color: rgba($code-background-color, 0.5);
 }
 
 // Text cell styling
@@ -103,12 +96,12 @@ table {
   }
 
   th {
-    background-color: rgba($code-bg-color, 0.5);
-    color: $heading-color;
+    background-color: rgba($code-background-color, 0.5);
+    color: $body-heading-color;
   }
 
   tr:nth-child(even) {
-    background-color: rgba($code-bg-color, 0.2);
+    background-color: rgba($code-background-color, 0.2);
   }
 }
 
@@ -127,8 +120,8 @@ textarea {
 
 // Style improvements
 body {
-  background-color: $bg-color;
-  color: $text-color;
+  background-color: $body-background-color;
+  color: $body-text-color;
   line-height: 1.6;
 }
 
@@ -142,7 +135,7 @@ a {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: $heading-color;
+  color: $body-heading-color;
   margin-top: 2rem;
   margin-bottom: 1rem;
 }
@@ -155,7 +148,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   &::-webkit-scrollbar-track {
-    background: $code-bg-color;
+    background: $code-background-color;
   }
 
   &::-webkit-scrollbar-thumb {
