@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
-gem "jekyll", "~> 4.3.2"
-gem "just-the-docs", "~> 0.7.0"
+gem "github-pages", group: :jekyll_plugins
+gem "just-the-docs"
 
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
