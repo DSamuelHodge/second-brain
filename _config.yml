@@ -1,28 +1,36 @@
-remote_theme: just-the-docs/just-the-docs
-
 title: Second Brain
 description: Personal knowledge management system using PARA method
 baseurl: "/second-brain"
 url: "https://dsamuelhodge.github.io"
 
 # Theme settings
-search_enabled: true
-heading_anchors: true
+theme: just-the-docs
 color_scheme: dark
 
-# Syntax highlighting settings
-markdown: kramdown
-highlighter: rouge
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
-  syntax_highlighter_opts:
-    css_class: 'highlight'
-    span:
-      line_numbers: false
-    block:
-      line_numbers: true
-      start_line: 1
+# Enable search
+search_enabled: true
+search:
+  heading_level: 3
+  previews: 3
+  preview_words_before: 5
+  preview_words_after: 10
+  tokenizer_separator: /[\s/]+/
+  rel_url: true
+  button: false
+
+# Aux links for the upper right navigation
+aux_links:
+  "View on GitHub":
+    - "https://github.com/DSamuelHodge/second-brain"
+
+# Makes Aux links open in a new tab
+aux_links_new_tab: true
+
+# Heading anchor links
+heading_anchors: true
+
+# Footer content
+footer_content: "Copyright &copy; 2025 Second Brain. Distributed under an MIT license."
 
 # Collections
 collections:
@@ -35,36 +43,68 @@ collections:
   resources:
     output: true
     permalink: /:collection/:path/
+  archives:
+    output: true
+    permalink: /:collection/:path/
 
 # Defaults
 defaults:
   - scope:
       path: ""
-      type: projects
+    values:
+      layout: default
+  - scope:
+      path: ""
+      type: "projects"
     values:
       layout: page
   - scope:
       path: ""
-      type: areas
+      type: "areas"
     values:
       layout: page
   - scope:
       path: ""
-      type: resources
+      type: "resources"
+    values:
+      layout: page
+  - scope:
+      path: ""
+      type: "archives"
     values:
       layout: page
 
-# Additional settings
-aux_links:
-  "GitHub Repository": 
-    - "https://github.com/DSamuelHodge/second-brain"
+# Exclude from processing
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
 
-# Enable copy buttons on code blocks
-enable_copy_code_button: true
+# Plugins
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
 
-# Footer content
-footer_content: "A personal knowledge management system using PARA method."
+# Markdown settings
+markdown: kramdown
+kramdown:
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+      start_line: 1
 
-# Back to top link
-back_to_top: true
-back_to_top_text: "Back to top"
+# Just the Docs settings
+# Color scheme supports "light" (default) and "dark"
+color_scheme: dark
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  startings: []
+  blanklines: false
+  profile: false
