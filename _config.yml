@@ -3,9 +3,8 @@ description: Personal knowledge management system using PARA method
 baseurl: "/second-brain"
 url: "https://dsamuelhodge.github.io"
 
-# Theme settings
-theme: just-the-docs
-color_scheme: dark
+remote_theme: just-the-docs/just-the-docs
+color_scheme: tokyo-night
 
 # Enable search
 search_enabled: true
@@ -18,93 +17,49 @@ search:
   rel_url: true
   button: false
 
-# Aux links for the upper right navigation
-aux_links:
-  "View on GitHub":
-    - "https://github.com/DSamuelHodge/second-brain"
-
-# Makes Aux links open in a new tab
-aux_links_new_tab: true
-
-# Heading anchor links
-heading_anchors: true
-
-# Footer content
-footer_content: "Copyright &copy; 2025 Second Brain. Distributed under an MIT license."
+# Navigation
+nav_external_links:
+  - title: "GitHub"
+    url: "https://github.com/DSamuelHodge/second-brain"
+    hide_icon: false
 
 # Collections
 collections:
-  projects:
+  docs:
+    permalink: "/:collection/:path/"
     output: true
-    permalink: /:collection/:path/
-  areas:
-    output: true
-    permalink: /:collection/:path/
-  resources:
-    output: true
-    permalink: /:collection/:path/
-  archives:
-    output: true
-    permalink: /:collection/:path/
 
-# Defaults
+# Just the Docs configurations
+heading_anchors: true
+footer_content: "Made with Just the Docs Jekyll theme"
+back_to_top: true
+back_to_top_text: "Back to top"
+
+# Enable copy buttons on code blocks
+enable_copy_code_button: true
+
+# Default YAML frontmatter settings
 defaults:
   - scope:
       path: ""
+      type: docs
     values:
-      layout: default
-  - scope:
-      path: ""
-      type: "projects"
-    values:
-      layout: page
-  - scope:
-      path: ""
-      type: "areas"
-    values:
-      layout: page
-  - scope:
-      path: ""
-      type: "resources"
-    values:
-      layout: page
-  - scope:
-      path: ""
-      type: "archives"
-    values:
-      layout: page
+      layout: "default"
+      nav_exclude: false
+      search_exclude: false
 
 # Exclude from processing
 exclude:
-  - .sass-cache/
-  - .jekyll-cache/
-  - gemfiles/
-  - Gemfile
-  - Gemfile.lock
-  - node_modules/
-  - vendor/
+  - "*.gem"
+  - "*.gemspec"
+  - "Gemfile*"
+  - "node_modules"
+  - "package*.json"
+  - "vendor"
 
-# Plugins
-plugins:
-  - jekyll-remote-theme
-  - jekyll-seo-tag
-
-# Markdown settings
-markdown: kramdown
+# kramdown settings
 kramdown:
   syntax_highlighter_opts:
     block:
       line_numbers: true
       start_line: 1
-
-# Just the Docs settings
-# Color scheme supports "light" (default) and "dark"
-color_scheme: dark
-
-compress_html:
-  clippings: all
-  comments: all
-  endings: all
-  startings: []
-  blanklines: false
-  profile: false
