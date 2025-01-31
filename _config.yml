@@ -8,6 +8,26 @@ url: "https://dsamuelhodge.github.io"
 # Theme settings
 search_enabled: true
 heading_anchors: true
+color_scheme: dark
+
+# Enable copy code buttons
+enable_copy_code_button: true
+
+# Syntax highlighting settings
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
+# Custom colors
+colors:
+  brand: "#7C3AED"
+  background: "#1A1B26"
+  text: "#A9B1D6"
+  link: "#7AA2F7"
+  code-bg: "#24283B"
 
 # Navigation
 nav_external_links:
