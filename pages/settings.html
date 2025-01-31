@@ -1,0 +1,88 @@
+---
+layout: default
+title: Settings
+nav_order: 99
+---
+
+<div class="settings-form">
+  <h1>Settings</h1>
+  
+  <div class="form-group">
+    <h2>GitHub Integration</h2>
+    <p>To create notes, you need to provide a GitHub personal access token with repo scope.</p>
+    
+    <ol>
+      <li>Go to <a href="https://github.com/settings/tokens" target="_blank">GitHub Token Settings</a></li>
+      <li>Click "Generate new token"</li>
+      <li>Select the "repo" scope</li>
+      <li>Generate and copy the token</li>
+      <li>Paste it below</li>
+    </ol>
+    
+    <div class="form-group">
+      <label for="githubToken">GitHub Token</label>
+      <input type="password" id="githubToken" class="form-input" placeholder="ghp_your_token_here">
+      <button onclick="saveToken()" class="btn-submit">Save Token</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.settings-form {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--code-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.btn-submit {
+  background: var(--link-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+  background: var(--link-hover-color);
+}
+</style>
+
+<script>
+function saveToken() {
+  const token = document.getElementById('githubToken').value;
+  if (!token) {
+    alert('Please enter a GitHub token');
+    return;
+  }
+  
+  window.saveGitHubToken(token);
+  alert('Token saved successfully!');
+  document.getElementById('githubToken').value = '';
+}
+</script>
