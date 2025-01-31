@@ -10,30 +10,19 @@ search_enabled: true
 heading_anchors: true
 color_scheme: dark
 
-# Enable copy code buttons
-enable_copy_code_button: true
-
 # Syntax highlighting settings
 markdown: kramdown
 highlighter: rouge
 kramdown:
+  input: GFM
+  syntax_highlighter: rouge
   syntax_highlighter_opts:
+    css_class: 'highlight'
+    span:
+      line_numbers: false
     block:
       line_numbers: true
-
-# Custom colors
-colors:
-  brand: "#7C3AED"
-  background: "#1A1B26"
-  text: "#A9B1D6"
-  link: "#7AA2F7"
-  code-bg: "#24283B"
-
-# Navigation
-nav_external_links:
-  - title: GitHub Repository
-    url: https://github.com/DSamuelHodge/second-brain
-    hide_icon: false
+      start_line: 1
 
 # Collections
 collections:
@@ -47,20 +36,35 @@ collections:
     output: true
     permalink: /:collection/:path/
 
-# Default front matter
+# Defaults
 defaults:
   - scope:
       path: ""
-      type: "projects"
+      type: projects
     values:
-      layout: "page"
+      layout: page
   - scope:
       path: ""
-      type: "areas"
+      type: areas
     values:
-      layout: "page"
+      layout: page
   - scope:
       path: ""
-      type: "resources"
+      type: resources
     values:
-      layout: "page"
+      layout: page
+
+# Additional settings
+aux_links:
+  "GitHub Repository": 
+    - "https://github.com/DSamuelHodge/second-brain"
+
+# Enable copy buttons on code blocks
+enable_copy_code_button: true
+
+# Footer content
+footer_content: "A personal knowledge management system using PARA method."
+
+# Back to top link
+back_to_top: true
+back_to_top_text: "Back to top"
